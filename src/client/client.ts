@@ -10,7 +10,7 @@ const DEFAULT_CONFIG: Required<ClientConfig> = {
   timeout: 30000,
   retryLimit: 3,
   retryDelay: 1000,
-  userAgent: '@openfigi/sdk',
+  userAgent: 'openfigi-sdk/1.0.3 (+https://github.com/viktorlarsson/openfigi)',
 }
 
 let currentRateLimitInfo: RateLimitInfo | undefined
@@ -189,15 +189,31 @@ export const createClient = (config: ClientConfig = {}) => {
 
         if (status === 400) {
           const body = await httpError.response?.text()
-          throw new ValidationError(`Bad request: ${body || 'Invalid request format'}`)
+          throw new ValidationError(
+            `Bad request: ${body || 'Invalid request format'}. Please check your request parameters and ensure all required fields are properly formatted.`,
+            body
+          )
         }
 
         if (status === 401) {
-          throw new OpenFigiError('Authentication failed. Check your API key.', status)
+          throw new OpenFigiError(
+            'Authentication failed. Please check your API key. You can get an API key at https://www.openfigi.com/api',
+            status
+          )
+        }
+
+        if (status === 403) {
+          throw new OpenFigiError(
+            'Access forbidden. Your API key may not have the required permissions for this operation.',
+            status
+          )
         }
 
         if (status === 404) {
-          throw new OpenFigiError('Endpoint not found. Please check the API version.', status)
+          throw new OpenFigiError(
+            'Endpoint not found. Please check the API version or ensure you are using the correct base URL.',
+            status
+          )
         }
 
         throw new OpenFigiError(
@@ -250,7 +266,7 @@ export const createClient = (config: ClientConfig = {}) => {
     options?: Partial<MappingRequest>
   ): Promise<MappingResponse> => {
     if (!isin || typeof isin !== 'string') {
-      throw new ValidationError('ISIN must be a non-empty string')
+      throw new ValidationError('ISIN must be a non-empty string. Example: "US0378331005"')
     }
     return mappingSingle({
       idType: 'ID_ISIN',
@@ -271,7 +287,7 @@ export const createClient = (config: ClientConfig = {}) => {
     options?: Partial<MappingRequest>
   ): Promise<MappingResponse> => {
     if (!cusip || typeof cusip !== 'string') {
-      throw new ValidationError('CUSIP must be a non-empty string')
+      throw new ValidationError('CUSIP must be a non-empty string. Example: "037833100"')
     }
     return mappingSingle({
       idType: 'ID_CUSIP',
@@ -292,7 +308,7 @@ export const createClient = (config: ClientConfig = {}) => {
     options?: Partial<MappingRequest>
   ): Promise<MappingResponse> => {
     if (!sedol || typeof sedol !== 'string') {
-      throw new ValidationError('SEDOL must be a non-empty string')
+      throw new ValidationError('SEDOL must be a non-empty string. Example: "2046251"')
     }
     return mappingSingle({
       idType: 'ID_SEDOL',
@@ -320,7 +336,7 @@ export const createClient = (config: ClientConfig = {}) => {
     options?: Partial<MappingRequest>
   ): Promise<MappingResponse> => {
     if (!ticker || typeof ticker !== 'string') {
-      throw new ValidationError('Ticker must be a non-empty string')
+      throw new ValidationError('Ticker must be a non-empty string. Example: "AAPL"')
     }
     return mappingSingle({
       idType: 'ID_EXCH_SYMBOL',
@@ -342,7 +358,7 @@ export const createClient = (config: ClientConfig = {}) => {
     options?: Partial<MappingRequest>
   ): Promise<MappingResponse> => {
     if (!bbgId || typeof bbgId !== 'string') {
-      throw new ValidationError('Bloomberg ID must be a non-empty string')
+      throw new ValidationError('Bloomberg ID must be a non-empty string. Example: "BBG000B9XRY4"')
     }
     return mappingSingle({
       idType: 'ID_BB_GLOBAL',
