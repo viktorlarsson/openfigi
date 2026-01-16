@@ -1,0 +1,14 @@
+{
+  "entryPoints": ["./src/index.ts"],
+  "out": "docs",
+  "theme": "default",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "excludeExternals": true,
+  "readme": "README.md",
+  "navigationLinks": {
+    "GitHub": "https://github.com/viktorlarsson/openfigi",
+    "OpenFIGI": "https://www.openfigi.com/"
+  }
+}
