@@ -70,7 +70,7 @@ describe('OpenFIGI Functional Client', () => {
       const invalidRequest = {
         idType: 'INVALID_TYPE',
         idValue: 'test',
-      } as MappingRequest
+      } as unknown as MappingRequest
       try {
         await client.mapping([invalidRequest])
         expect(false).toBe(true) // Should not reach here
