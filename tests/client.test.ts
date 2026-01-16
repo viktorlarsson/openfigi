@@ -7,7 +7,7 @@ import {
   searchBySEDOL,
   searchByTicker,
 } from '../src/client/client'
-import type { MappingRequest } from '../src/types'
+import type { ClientConfig, MappingRequest } from '../src/types'
 import { ValidationError } from '../src/utils/errors'
 
 describe('OpenFIGI Functional Client', () => {
@@ -35,7 +35,7 @@ describe('OpenFIGI Functional Client', () => {
       expect(() => {
         createClient({
           baseUrl: 'invalid-url',
-        } as any)
+        } as ClientConfig)
       }).toThrow(ValidationError)
     })
   })
@@ -70,7 +70,7 @@ describe('OpenFIGI Functional Client', () => {
       const invalidRequest = {
         idType: 'INVALID_TYPE',
         idValue: 'test',
-      } as any
+      } as MappingRequest
       try {
         await client.mapping([invalidRequest])
         expect(false).toBe(true) // Should not reach here

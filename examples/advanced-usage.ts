@@ -81,7 +81,7 @@ async function handleLargeBatch() {
         // If getting low on rate limit, wait
         if (rateLimit.remaining < 10) {
           console.log('  ⚠️  Rate limit low, waiting 1 second...')
-          await new Promise(resolve => setTimeout(resolve, 1000))
+          await new Promise((resolve) => setTimeout(resolve, 1000))
         }
       }
     } catch (error) {
@@ -176,8 +176,8 @@ async function parallelRequests() {
   try {
     const results = await Promise.all([
       searchByISIN(identifiers[0].value),
-      searchByISIN(identifiers[1].value),  // Will use CUSIP internally
-      searchByISIN(identifiers[2].value),  // Will use SEDOL internally
+      searchByISIN(identifiers[1].value), // Will use CUSIP internally
+      searchByISIN(identifiers[2].value), // Will use SEDOL internally
     ])
 
     const elapsed = Date.now() - startTime
@@ -246,7 +246,7 @@ async function main() {
     await parallelRequests()
     await workingWithResponseData()
 
-    console.log('\n' + '='.repeat(50))
+    console.log(`\n${'='.repeat(50)}`)
     console.log('✅ All examples completed successfully!')
   } catch (error) {
     console.error('\n❌ Example failed:', error)

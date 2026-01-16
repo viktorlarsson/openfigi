@@ -1,7 +1,6 @@
 #!/usr/bin/env bun
 
-import { existsSync, readFileSync } from 'fs'
-import { join } from 'path'
+import { existsSync, readFileSync } from 'node:fs'
 
 const errors: string[] = []
 const warnings: string[] = []
@@ -12,12 +11,7 @@ if (!existsSync('dist')) {
 }
 
 // Check if all dist files exist
-const expectedFiles = [
-  'dist/index.js',
-  'dist/index.cjs',
-  'dist/index.d.ts',
-  'dist/index.d.cts',
-]
+const expectedFiles = ['dist/index.js', 'dist/index.cjs', 'dist/index.d.ts', 'dist/index.d.cts']
 
 for (const file of expectedFiles) {
   if (!existsSync(file)) {
@@ -48,7 +42,6 @@ try {
   }
 
   console.log(`📦 Package: ${pkg.name}@${pkg.version}`)
-
 } catch (error) {
   errors.push(`Failed to read package.json: ${error}`)
 }
@@ -73,13 +66,17 @@ console.log('\n📋 Pre-publish Check Results:\n')
 
 if (warnings.length > 0) {
   console.log('⚠️  Warnings:')
-  warnings.forEach(w => console.log(`   - ${w}`))
+  for (const w of warnings) {
+    console.log(`   - ${w}`)
+  }
   console.log('')
 }
 
 if (errors.length > 0) {
   console.log('❌ Errors:')
-  errors.forEach(e => console.log(`   - ${e}`))
+  for (const e of errors) {
+    console.log(`   - ${e}`)
+  }
   console.log('\n❌ Pre-publish check failed! Fix the errors above before publishing.')
   process.exit(1)
 } else {
