@@ -236,4 +236,4 @@ Built with modern tools and technologies:
 - [Vitest](https://vitest.dev/) - Fast unit testing framework
 - [Biome](https://biomejs.dev/) - Fast formatter and linter
 - [tsup](https://tsup.egoist.dev/) - Zero-config TypeScript bundler
-- [Zod](https://zod.dev/) - TypeScript-first schema validation
+- [Zod](https://zod.dev/) - TypeScript-first validation
