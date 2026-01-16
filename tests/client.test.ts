@@ -1,4 +1,4 @@
-import { describe, expect, it, mock } from 'bun:test'
+import { describe, expect, it, vi } from 'vitest'
 import {
   createClient,
   searchByBloombergId,
@@ -83,7 +83,7 @@ describe('OpenFIGI Functional Client', () => {
   describe('request building', () => {
     it('should build correct request for ISIN', () => {
       const client = createClient()
-      const _mockMapping = mock(() => Promise.resolve([{ data: [{ figi: 'BBG000B9XRY4' }] }]))
+      const _mockMapping = vi.fn(() => Promise.resolve([{ data: [{ figi: 'BBG000B9XRY4' }] }]))
 
       // This tests that the function exists and can be called
       expect(typeof client.searchByISIN).toBe('function')
