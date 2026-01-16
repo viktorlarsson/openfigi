@@ -209,11 +209,32 @@ To get an API key, sign up at [OpenFIGI.com](https://www.openfigi.com/).
 
 This is a **community-driven project** and contributions are welcome! Please feel free to submit a Pull Request.
 
+### Development Workflow
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Make your changes and add tests
+4. Add a changeset to describe your changes:
+   ```bash
+   bun run changeset
+   ```
+5. Commit your changes (`git commit -m 'feat: add some amazing feature'`)
+6. Push to the branch (`git push origin feature/AmazingFeature`)
+7. Open a Pull Request
+
+### Release Process
+
+This project uses [Changesets](https://github.com/changesets/changesets) for version management:
+
+- **Adding changes**: Run `bun run changeset` to create a changeset describing your changes
+- **Releasing**: When PRs with changesets are merged to main, a release PR is automatically created
+- **Publishing**: Merging the release PR automatically publishes to npm and creates git tags
+
+### Changeset Types
+
+- `patch` - Bug fixes and small improvements
+- `minor` - New features and enhancements
+- `major` - Breaking changes
 
 **Note**: This library is maintained by the community and is not affiliated with OpenFIGI or Bloomberg. For official API support, please contact OpenFIGI directly.
 
