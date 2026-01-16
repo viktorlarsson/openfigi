@@ -6,6 +6,9 @@ A modern, type-safe TypeScript SDK for the [OpenFIGI API](https://www.openfigi.c
 [![npm version](https://badge.fury.io/js/openfigi.svg)](https://www.npmjs.com/package/openfigi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> **⚠️ Community Project Disclaimer**
+> This is an **unofficial, community-maintained** TypeScript SDK for OpenFIGI. It is **not affiliated with or endorsed by OpenFIGI or Bloomberg**. This library is developed and maintained by the open-source community. For official support, please refer to the [OpenFIGI official documentation](https://www.openfigi.com/api).
+
 ## Features
 
 - **Type-safe** - Full TypeScript support with comprehensive type definitions
@@ -207,13 +210,15 @@ To get an API key, sign up at [OpenFIGI.com](https://www.openfigi.com/).
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+This is a **community-driven project** and contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+**Note**: This library is maintained by the community and is not affiliated with OpenFIGI or Bloomberg. For official API support, please contact OpenFIGI directly.
 
 ## License
 
