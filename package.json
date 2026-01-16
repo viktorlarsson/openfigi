@@ -1,5 +1,5 @@
 {
-  "name": "openfigi",
+  "name": "figi-sdk",
   "version": "1.0.0",
   "description": "Unofficial TypeScript SDK for OpenFIGI API - Map financial identifiers to FIGIs (community-maintained)",
   "type": "module",
@@ -52,7 +52,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/viktorlarsson/openfigi.git"
+    "url": "git+https://github.com/viktorlarsson/openfigi.git"
   },
   "bugs": {
     "url": "https://github.com/viktorlarsson/openfigi/issues"
