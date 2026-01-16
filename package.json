@@ -1,6 +1,6 @@
 {
-  "name": "figi-sdk",
-  "version": "1.0.2",
+  "name": "openfigi-sdk",
+  "version": "1.0.3",
   "description": "Unofficial TypeScript SDK for OpenFIGI API - Map financial identifiers to FIGIs (community-maintained)",
   "type": "module",
   "main": "./dist/index.js",

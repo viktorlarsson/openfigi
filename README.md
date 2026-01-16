@@ -1,9 +1,9 @@
-# figi-sdk
+# openfigi-sdk
 
 A modern, type-safe TypeScript SDK for the [OpenFIGI API](https://www.openfigi.com/api) - the free and open standard for financial instrument identification.
 
 [![CI](https://github.com/viktorlarsson/openfigi/actions/workflows/ci.yml/badge.svg)](https://github.com/viktorlarsson/openfigi/actions/workflows/ci.yml)
-[![npm version](https://badge.fury.io/js/figi-sdk.svg)](https://www.npmjs.com/package/figi-sdk)
+[![npm version](https://badge.fury.io/js/openfigi-sdk.svg)](https://www.npmjs.com/package/openfigi-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > **⚠️ Community Project Disclaimer**
@@ -24,19 +24,19 @@ A modern, type-safe TypeScript SDK for the [OpenFIGI API](https://www.openfigi.c
 
 ```bash
 # Using bun
-bun add figi-sdk
+bun add openfigi-sdk
 
 # Using npm
-npm install figi-sdk
+npm install openfigi-sdk
 
 # Using pnpm
-pnpm add figi-sdk
+pnpm add openfigi-sdk
 ```
 
 ## Quick Start
 
 ```typescript
-import { searchByISIN, searchByCUSIP, searchByTicker, searchBySEDOL, searchByBloombergId, createClient } from 'figi-sdk'
+import { searchByISIN, searchByCUSIP, searchByTicker, searchBySEDOL, searchByBloombergId, createClient } from 'openfigi-sdk'
 
 // Use standalone functions (no API key required for public access)
 const response = await searchByISIN('US0378331005')
@@ -81,7 +81,7 @@ interface ClientConfig {
 ### Batch Mapping
 
 ```typescript
-import { mapping, createClient } from 'figi-sdk'
+import { mapping, createClient } from 'openfigi-sdk'
 
 // Map multiple identifiers in a single request (max 100)
 const requests = [
@@ -109,7 +109,7 @@ responses.forEach((response, index) => {
 ### Advanced Search Options
 
 ```typescript
-import { searchByISIN, mappingSingle } from 'figi-sdk'
+import { searchByISIN, mappingSingle } from 'openfigi-sdk'
 
 // Search with additional filters
 const response = await searchByISIN('US0378331005', {
@@ -131,7 +131,7 @@ const response = await mappingSingle({
 ### Error Handling
 
 ```typescript
-import { searchByISIN, OpenFigiError, RateLimitError, ValidationError } from 'figi-sdk'
+import { searchByISIN, OpenFigiError, RateLimitError, ValidationError } from 'openfigi-sdk'
 
 try {
   const response = await searchByISIN('invalid-isin')
@@ -149,7 +149,7 @@ try {
 ### Rate Limit Information
 
 ```typescript
-import { searchByISIN, getRateLimitInfo } from 'figi-sdk'
+import { searchByISIN, getRateLimitInfo } from 'openfigi-sdk'
 
 // Check current rate limit status after any request
 const response = await searchByISIN('US0378331005')
@@ -226,7 +226,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [OpenFIGI API Documentation](https://www.openfigi.com/api/documentation)
 - [OpenFIGI Website](https://www.openfigi.com/)
 - [GitHub Repository](https://github.com/viktorlarsson/openfigi)
-- [npm Package](https://www.npmjs.com/package/figi-sdk)
+- [npm Package](https://www.npmjs.com/package/openfigi-sdk)
 
 ## Acknowledgments
 
