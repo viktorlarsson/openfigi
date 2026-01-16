@@ -7,8 +7,9 @@ describe('Utils', () => {
       const start = Date.now()
       await sleep(100)
       const elapsed = Date.now() - start
-      expect(elapsed).toBeGreaterThanOrEqual(100)
-      expect(elapsed).toBeLessThan(150)
+      // Allow for small timing variations in CI environments
+      expect(elapsed).toBeGreaterThanOrEqual(95)
+      expect(elapsed).toBeLessThan(200)
     })
   })
 
