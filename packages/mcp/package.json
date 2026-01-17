@@ -1,0 +1,79 @@
+{
+  "name": "openfigi-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for OpenFIGI API - Map financial identifiers to FIGIs via Model Context Protocol",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "openfigi-mcp": "./dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "bun --bun oxlint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "openfigi",
+    "mcp",
+    "model-context-protocol",
+    "figi",
+    "finance",
+    "api",
+    "typescript",
+    "financial-identifiers",
+    "bloomberg",
+    "claude"
+  ],
+  "author": "Viktor Larsson <viktorsarstrom@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viktorlarsson/openfigi.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/viktorlarsson/openfigi/issues"
+  },
+  "homepage": "https://github.com/viktorlarsson/openfigi#readme",
+  "funding": "https://github.com/sponsors/viktorlarsson",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.9",
+    "@vitest/coverage-v8": "^4.0.17",
+    "oxlint": "^1.0.0",
+    "tsdown": "^0.9.0",
+    "vitest": "^4.0.17"
+  },
+  "peerDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "openfigi-sdk": "workspace:*"
+  }
+}
