@@ -908,7 +908,7 @@ export interface MappingRequest {
   securityType?: SecurityType
   securityType2?: SecurityType2
   includeUnlistedEquities?: boolean
-  optionType?: 'Put' | 'Call'
+  optionType?: 'Put' | 'Call' | (string & {})
   strike?: number[]
   contractSize?: number
   coupon?: number[]

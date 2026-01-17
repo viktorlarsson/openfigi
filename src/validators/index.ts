@@ -910,7 +910,7 @@ export const MappingRequestSchema = z.object({
   securityType: SecurityTypeSchema.optional(),
   securityType2: SecurityType2Schema.optional(),
   includeUnlistedEquities: z.boolean().optional(),
-  optionType: z.enum(['Put', 'Call']).optional(),
+  optionType: z.enum(['Put', 'Call']).or(z.string()).optional(),
   strike: z.array(z.number()).optional(),
   contractSize: z.number().optional(),
   coupon: z.array(z.number()).optional(),
