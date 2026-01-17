@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "openfigi-monorepo",
@@ -11,7 +12,7 @@
     },
     "packages/mcp": {
       "name": "openfigi-mcp",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "bin": {
         "openfigi-mcp": "./dist/index.js",
       },
@@ -32,7 +33,7 @@
     },
     "packages/openfigi-sdk": {
       "name": "openfigi-sdk",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "dependencies": {
         "ky": "^1.14.2",
         "zod": "^4.3.5",
