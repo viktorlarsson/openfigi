@@ -6,13 +6,13 @@
       "name": "openfigi-monorepo",
       "devDependencies": {
         "@changesets/cli": "^2.29.8",
-        "turbo": "^2.5.3",
+        "turbo": "^2.7.5",
         "typescript": "^5.9.3",
       },
     },
     "packages/mcp": {
       "name": "openfigi-mcp",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "bin": {
         "openfigi-mcp": "./dist/index.js",
       },
