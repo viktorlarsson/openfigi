@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "openfigi-monorepo",
@@ -11,7 +12,7 @@
     },
     "packages/mcp": {
       "name": "openfigi-mcp",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "bin": {
         "openfigi-mcp": "./dist/index.js",
       },
