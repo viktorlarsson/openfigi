@@ -256,5 +256,5 @@ Built with modern tools and technologies:
 - [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
 - [Vitest](https://vitest.dev/) - Fast unit testing framework
 - [Biome](https://biomejs.dev/) - Fast formatter and linter
-- [tsup](https://tsup.egoist.dev/) - Zero-config TypeScript bundler
+- [tsdown](https://tsdown.dev/) - TypeScript bundler
 - [Zod](https://zod.dev/) - TypeScript-first validation
