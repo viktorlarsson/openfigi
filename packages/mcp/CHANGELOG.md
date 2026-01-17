@@ -1,5 +1,11 @@
 # openfigi-mcp
 
+## 0.2.4
+
+### Patch Changes
+
+- eb180e9: Add MCP Registry support with mcpName field and server.json
+
 ## 0.2.3
 
 ### Patch Changes
