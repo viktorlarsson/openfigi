@@ -71,34 +71,9 @@ Features:
 
 ### Using with Vercel AI SDK
 
-#### AI SDK 5.x (experimental)
-
-```typescript
-import { experimental_createMCPClient as createMCPClient } from 'ai'
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
-import { generateText } from 'ai'
-import { anthropic } from '@ai-sdk/anthropic'
-
-const mcpClient = await createMCPClient({
-  transport: new StdioClientTransport({
-    command: 'npx',
-    args: ['openfigi-mcp'],
-    env: { OPENFIGI_API_KEY: process.env.OPENFIGI_API_KEY }
-  }),
-})
-
-const tools = await mcpClient.tools()
-
-const { text } = await generateText({
-  model: anthropic('claude-sonnet-4-20250514'),
-  tools,
-  prompt: 'Find the FIGI for Apple Inc using ISIN US0378331005',
-})
-
-await mcpClient.close()
+```bash
+npm install ai @ai-sdk/mcp @ai-sdk/anthropic @modelcontextprotocol/sdk
 ```
-
-#### AI SDK 6.x
 
 ```typescript
 import { createMCPClient } from '@ai-sdk/mcp'
@@ -120,11 +95,13 @@ const { text } = await generateText({
   model: anthropic('claude-sonnet-4-20250514'),
   tools,
   maxSteps: 5,
-  prompt: 'Search for Volkswagen preferred shares (VOW3) on the German exchange',
+  prompt: 'Find the FIGI for Apple Inc using ISIN US0378331005',
 })
 
 await mcpClient.close()
 ```
+
+> **Note**: For AI SDK 5.x, use `experimental_createMCPClient` from `'ai'` instead of `createMCPClient` from `'@ai-sdk/mcp'`.
 
 [Full MCP documentation →](./packages/mcp/README.md)
 
