@@ -1,5 +1,14 @@
 # openfigi-mcp
 
+## 0.2.1
+
+### Patch Changes
+
+- caab2bf: Fix publishing to use bun publish which properly resolves workspace:\* dependencies
+- 123a66f: Fix workspace:\* dependency resolution when publishing to npm
+
+  Uses bun publish which properly resolves workspace protocol references to actual version numbers.
+
 ## 0.2.0
 
 ### Minor Changes
