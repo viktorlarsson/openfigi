@@ -1,6 +1,6 @@
 {
   "name": "openfigi-sdk",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Unofficial TypeScript SDK for OpenFIGI API - Map financial identifiers to FIGIs (community-maintained)",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -12,10 +12,17 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
