@@ -1,5 +1,11 @@
 # openfigi-mcp
 
+## 0.2.3
+
+### Patch Changes
+
+- 4217cb1: Add fetch polyfill for Node.js 16+ compatibility using undici
+
 ## 0.2.2
 
 ### Patch Changes
