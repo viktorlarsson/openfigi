@@ -60,7 +60,7 @@
   "homepage": "https://github.com/viktorlarsson/openfigi#readme",
   "funding": "https://github.com/sponsors/viktorlarsson",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=16.0.0"
   },
   "devDependencies": {
     "@types/node": "^25.0.9",
@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "openfigi-sdk": "workspace:*"
+    "openfigi-sdk": "workspace:*",
+    "undici": "^5.29.0"
   }
 }
