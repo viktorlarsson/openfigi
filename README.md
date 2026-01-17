@@ -117,14 +117,11 @@ import { searchByTicker } from 'openfigi-sdk'
 const response = await searchByTicker('AAPL', 'US', { securityType2: 'Common Stock' })
 ```
 
-Common `securityType2` values:
-- `"Common Stock"` - Regular equity shares
-- `"Preferred Stock"` - Preferred shares
-- `"ETP"` - Exchange-traded products (ETFs, ETNs)
-- `"REIT"` - Real Estate Investment Trusts
-- `"ADR"` - American Depositary Receipts
+Common `securityType` values: `"Common Stock"`, `"Preferred"`, `"ADR"`, `"ETF"`
+[View all securityType values](https://api.openfigi.com/v3/mapping/values/securityType)
 
-For a complete list of valid security types, see the [OpenFIGI Security Types API](https://api.openfigi.com/v3/mapping/values/securityType).
+Common `securityType2` values: `"Common Stock"`, `"Preferred Stock"`, `"ETP"`, `"REIT"`
+[View all securityType2 values](https://api.openfigi.com/v3/mapping/values/securityType2)
 
 ### Advanced Search Options
 
