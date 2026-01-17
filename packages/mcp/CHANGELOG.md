@@ -1,5 +1,11 @@
 # openfigi-mcp
 
+## 0.2.2
+
+### Patch Changes
+
+- 57ce9f9: Add Node.js shebang for proper CLI execution via npx
+
 ## 0.2.1
 
 ### Patch Changes
