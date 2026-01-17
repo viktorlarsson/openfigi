@@ -271,17 +271,22 @@ export const toolDefinitions = [
   {
     name: 'search_by_ticker',
     description:
-      'Search for financial instruments by ticker symbol. Returns FIGI identifiers and instrument details.',
+      'Search for financial instruments by ticker symbol. Returns FIGI identifiers and instrument details. Automatically tries multiple security types (Common Stock, Preference, Depositary Receipt, ETP) if not specified.',
     inputSchema: {
       type: 'object',
       properties: {
         ticker: {
           type: 'string',
-          description: 'Ticker symbol to search for (e.g., "AAPL")',
+          description: 'Ticker symbol to search for (e.g., "AAPL", "VOW3", "RR.")',
         },
         exchCode: {
           type: 'string',
-          description: 'Exchange code to narrow search (e.g., "US", "NASDAQ")',
+          description: 'Exchange code to narrow search (e.g., "US", "LN", "GY")',
+        },
+        securityType2: {
+          type: 'string',
+          description:
+            'Security type filter. If not specified, automatically tries: Common Stock, Preference, Depositary Receipt, ETP. Examples: "Common Stock", "Preference", "Depositary Receipt", "ETP"',
         },
         micCode: filterProperties.micCode,
         currency: filterProperties.currency,
@@ -453,8 +458,12 @@ export async function handleTool(
       case 'search_by_ticker': {
         const ticker = args.ticker as string
         const exchCode = args.exchCode as string | undefined
+        const securityType2 = args.securityType2 as string | undefined
         const filters = extractFilters(args)
-        const response = await client.searchByTicker(ticker, exchCode, filters)
+        const response = await client.searchByTicker(ticker, exchCode, {
+          ...filters,
+          ...(securityType2 && { securityType2 }),
+        })
         return { content: [{ type: 'text', text: formatResponse(response) }] }
       }
 
@@ -650,30 +659,90 @@ export async function handleTool(
           UNKNOWN: 'ID_EXCH_SYMBOL', // Won't be used
         }
 
-        const requests: MappingRequest[] = validIdentifiers.map((id) => ({
-          idType: idTypeMap[id.type],
-          idValue: id.value,
-          exchCode: id.exchCode as MappingRequest['exchCode'],
-          // securityType2 is required for ID_EXCH_SYMBOL (ticker) searches
-          ...(id.type === 'TICKER' && { securityType2: 'Common Stock' as const }),
-        }))
+        // Security types to try for tickers (in order of likelihood)
+        const tickerSecurityTypes: Array<MappingRequest['securityType2']> = [
+          'Common Stock',
+          'Preference',
+        ]
+
+        // For tickers, create multiple requests (one per security type) to improve hit rate
+        // For other types, create a single request
+        const requests: Array<{ request: MappingRequest; originalIndex: number; securityType?: string }> = []
+
+        validIdentifiers.forEach((id, index) => {
+          if (id.type === 'TICKER') {
+            // Add a request for each security type we want to try
+            tickerSecurityTypes.forEach((secType) => {
+              requests.push({
+                request: {
+                  idType: idTypeMap[id.type],
+                  idValue: id.value,
+                  exchCode: id.exchCode as MappingRequest['exchCode'],
+                  securityType2: secType,
+                },
+                originalIndex: index,
+                securityType: secType,
+              })
+            })
+          } else {
+            requests.push({
+              request: {
+                idType: idTypeMap[id.type],
+                idValue: id.value,
+                exchCode: id.exchCode as MappingRequest['exchCode'],
+              },
+              originalIndex: index,
+            })
+          }
+        })
 
         // Split into batches based on API key presence
         const batchSize = getBatchSize()
         const batches = chunkArray(requests, batchSize)
 
         // Process all batches and combine results
-        const allResponses: MappingResponse[] = []
+        const allResults: Array<{ response: MappingResponse; originalIndex: number; securityType?: string }> = []
         for (const batch of batches) {
-          const batchResponses = await client.mapping(batch)
-          allResponses.push(...batchResponses)
+          const batchRequests = batch.map((r) => r.request)
+          const batchResponses = await client.mapping(batchRequests)
+          batchResponses.forEach((response, i) => {
+            allResults.push({
+              response,
+              originalIndex: batch[i].originalIndex,
+              securityType: batch[i].securityType,
+            })
+          })
         }
-        const responses = allResponses
+
+        // Group results by original identifier and pick the best result (first one with data)
+        const bestResults: (MappingResponse | null)[] = new Array(validIdentifiers.length).fill(null)
+        const usedSecurityType: (string | undefined)[] = new Array(validIdentifiers.length).fill(undefined)
+
+        for (const result of allResults) {
+          const idx = result.originalIndex
+          const hasData = result.response.data && result.response.data.length > 0
+
+          // If we don't have a result yet, or this one has data and previous didn't
+          if (bestResults[idx] === null || (hasData && !(bestResults[idx]?.data?.length))) {
+            bestResults[idx] = result.response
+            usedSecurityType[idx] = result.securityType
+          }
+        }
+
+        // Ensure no null results (fallback to warning response)
+        const finalResults: MappingResponse[] = bestResults.map((result, index) => {
+          if (result === null) {
+            const id = validIdentifiers[index]
+            return { warning: `No identifier found for ${id.value}` }
+          }
+          return result
+        })
+
         // Track found and not found
         const found: string[] = []
         const notFound: string[] = []
 
-        const formatted = responses
+        const formatted = finalResults
           .map((response: MappingResponse, index: number) => {
             const id = validIdentifiers[index]
             const exchPart = id.exchCode ? ` [${id.exchCode}]` : ''
@@ -687,7 +756,8 @@ export async function handleTool(
               notFound.push(idLabel)
             }
 
-            const status = hasResults ? '' : ' ⚠️ NOT FOUND'
+            const secTypeInfo = usedSecurityType[index] ? ` (${usedSecurityType[index]})` : ''
+            const status = hasResults ? secTypeInfo : ' ⚠️ NOT FOUND'
             return `[${index + 1}] ${id.type}: ${idLabel}${status}\n${formatResponse(response)}`
           })
           .join('\n\n---\n\n')

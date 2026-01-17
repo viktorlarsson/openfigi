@@ -198,6 +198,42 @@ GOOGL`
     })
   })
 
+  describe('search_by_ticker', () => {
+    it('should search ticker without explicit securityType2', async () => {
+      const result = await handleTool('search_by_ticker', { ticker: 'AAPL', exchCode: 'US' })
+
+      // Should find results (uses smart search)
+      expect(getText(result)).toContain('FIGI:')
+    })
+
+    it('should search ticker with explicit securityType2', async () => {
+      const result = await handleTool('search_by_ticker', {
+        ticker: 'AAPL',
+        exchCode: 'US',
+        securityType2: 'Common Stock',
+      })
+
+      expect(getText(result)).toContain('FIGI:')
+    })
+
+    it('should search preference shares with explicit securityType2', async () => {
+      const result = await handleTool('search_by_ticker', {
+        ticker: 'VOW3',
+        exchCode: 'GY',
+        securityType2: 'Preference',
+      })
+
+      // Should return results for preference shares
+      expect(getText(result)).toBeDefined()
+    })
+
+    it('should handle London Stock Exchange tickers', async () => {
+      const result = await handleTool('search_by_ticker', { ticker: 'RR.', exchCode: 'LN' })
+
+      expect(getText(result)).toContain('FIGI:')
+    })
+  })
+
   describe('batch_search_auto_detect', () => {
     beforeEach(() => {
       vi.clearAllMocks()

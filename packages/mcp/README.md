@@ -63,8 +63,30 @@ Config file location:
 | `search_by_isin` | Search by ISIN | `US0378331005` (Apple) |
 | `search_by_cusip` | Search by CUSIP | `037833100` (Apple) |
 | `search_by_sedol` | Search by SEDOL | `2046251` (Apple) |
-| `search_by_ticker` | Search by ticker | `AAPL` with exchCode `US` |
+| `search_by_ticker` | Search by ticker (smart search) | `AAPL` with exchCode `US` |
 | `search_by_bloomberg_id` | Search by Bloomberg ID | `BBG000B9XRY4` |
+
+#### Smart Ticker Search
+
+The `search_by_ticker` tool automatically tries multiple security types when searching, so you don't need to know if a stock is common or preferred:
+
+```
+# These all work automatically:
+AAPL US    → Common Stock (Apple)
+VOW3 GY    → Preference shares (Volkswagen preferred)
+P911 GY    → Preference shares (Porsche)
+RR. LN     → Common Stock (Rolls-Royce)
+BA. LN     → Common Stock (BAE Systems)
+```
+
+If you need to search for a specific security type, you can use the optional `securityType2` parameter:
+
+| securityType2 | Description |
+|---------------|-------------|
+| `Common Stock` | Regular common shares |
+| `Preference` | Preferred/preference shares |
+| `Depositary Receipt` | ADRs, GDRs |
+| `ETP` | ETFs and other exchange-traded products |
 
 ### Auto-Detection Tools
 

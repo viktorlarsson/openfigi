@@ -330,12 +330,18 @@ export const createClient = (config: ClientConfig = {}) => {
    *
    * @param ticker - Ticker symbol (e.g., 'AAPL')
    * @param exchCode - Optional exchange code (e.g., 'US')
-   * @param options - Additional search options
+   * @param options - Additional search options. If securityType2 is not specified,
+   *                  the method will automatically try multiple common security types
+   *                  (Common Stock, Preference, Depositary Receipt, ETP) until a match is found.
    * @returns Mapping response with FIGI data
    *
    * @example
    * ```typescript
    * const result = await searchByTicker('AAPL', 'US')
+   * // For preference shares (auto-detected):
+   * const result2 = await searchByTicker('VOW3', 'GY')
+   * // Or specify explicitly:
+   * const result3 = await searchByTicker('VOW3', 'GY', { securityType2: 'Preference' })
    * ```
    */
   const searchByTicker = async (
@@ -346,13 +352,47 @@ export const createClient = (config: ClientConfig = {}) => {
     if (!ticker || typeof ticker !== 'string') {
       throw new ValidationError('Ticker must be a non-empty string. Example: "AAPL"')
     }
-    return mappingSingle({
-      idType: 'ID_EXCH_SYMBOL',
-      idValue: ticker.trim().toUpperCase(),
-      exchCode: exchCode?.trim(),
-      securityType2: 'Common Stock',
-      ...options,
-    })
+
+    const normalizedTicker = ticker.trim().toUpperCase()
+    const normalizedExchCode = exchCode?.trim()
+
+    // If securityType2 is explicitly provided, use it directly
+    if (options?.securityType2) {
+      return mappingSingle({
+        idType: 'ID_EXCH_SYMBOL',
+        idValue: normalizedTicker,
+        exchCode: normalizedExchCode,
+        ...options,
+      })
+    }
+
+    // Auto-detect: try multiple securityType2 values in order of likelihood
+    const securityTypesToTry: Array<MappingRequest['securityType2']> = [
+      'Common Stock',
+      'Preference',
+      'Depositary Receipt',
+      'ETP',
+    ]
+
+    for (const securityType2 of securityTypesToTry) {
+      const response = await mappingSingle({
+        idType: 'ID_EXCH_SYMBOL',
+        idValue: normalizedTicker,
+        exchCode: normalizedExchCode,
+        securityType2,
+        ...options,
+      })
+
+      // If we found results, return them
+      if (response.data && response.data.length > 0) {
+        return response
+      }
+    }
+
+    // If nothing found with any type, return the last response (with warning)
+    return {
+      warning: `No identifier found for ticker "${normalizedTicker}"${normalizedExchCode ? ` on exchange ${normalizedExchCode}` : ''}. Tried security types: ${securityTypesToTry.join(', ')}.`,
+    }
   }
 
   /**

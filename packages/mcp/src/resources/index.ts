@@ -49,9 +49,10 @@ ISINs are globally unique and always return accurate results:
 ### 2. TICKER SEARCH REQUIREMENTS
 When searching by ticker (search_by_ticker or search_auto_detect):
 - MUST include exchange code for accurate results
-- Uses securityType2="Common Stock" by default
+- Auto-detects security type (Common Stock, Preference, Depositary Receipt, ETP)
 - Swedish tickers need share class: "ERIC B" not "ERIC"
 - US tickers: "AAPL" with exchCode "US"
+- German preference shares work automatically: "VOW3" with exchCode "GY"
 
 ### 3. EXCHANGE CODE MAPPING
 Common Bloomberg-style suffixes and their OpenFIGI exchCode:
@@ -76,10 +77,11 @@ Nordic stocks often have share class suffixes:
 
 ### 5. HANDLING "NOT FOUND" RESULTS
 If a ticker search returns no results:
-1. Check if share class is needed (add A/B suffix)
-2. Try without exchange code for broader search
-3. Search by ISIN if available (most reliable)
-4. Check if company uses different ticker in OpenFIGI
+1. The smart search automatically tries multiple security types
+2. Check if share class is needed (add A/B suffix for Nordic stocks)
+3. Try without exchange code for broader search
+4. Search by ISIN if available (most reliable)
+5. For specific security types, use securityType2 parameter explicitly
 
 ### 6. BATCH SEARCH TIPS
 For batch_search_auto_detect:
@@ -103,7 +105,17 @@ Reuters: "AAPL.O" → use "AAPL" with exchCode "NASDAQ"
 - search_by_cusip: US securities with CUSIP
 - search_by_sedol: UK/Irish securities with SEDOL
 
-### 9. COMMON PITFALLS
+### 9. SECURITY TYPES FOR TICKERS
+The search automatically tries these types in order:
+- Common Stock: Regular shares (AAPL, MSFT, etc.)
+- Preference: Preferred shares (VOW3 GY, P911 GY)
+- Depositary Receipt: ADRs/GDRs
+- ETP: Exchange-traded products
+
+To search for a specific type, use securityType2 parameter:
+- "Common Stock", "Preference", "Depositary Receipt", "ETP"
+
+### 10. COMMON PITFALLS
 - Ticker without exchange: May return too many or zero results
 - Wrong exchange code: "NASDAQ" vs "US" can give different results
 - Missing share class: Nordic stocks often need A/B suffix

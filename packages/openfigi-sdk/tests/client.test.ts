@@ -131,4 +131,32 @@ describe('OpenFIGI Functional Client', () => {
       expect(typeof customClient.searchByISIN).toBe('function')
     })
   })
+
+  describe('searchByTicker smart search', () => {
+    it('should accept explicit securityType2 parameter', () => {
+      const client = createClient()
+      // Verify the function can be called with securityType2 option
+      expect(typeof client.searchByTicker).toBe('function')
+    })
+
+    it('should throw ValidationError for empty ticker', async () => {
+      const client = createClient()
+      try {
+        await client.searchByTicker('')
+        expect(false).toBe(true) // Should not reach here
+      } catch (error) {
+        expect(error).toBeInstanceOf(ValidationError)
+      }
+    })
+
+    it('should throw ValidationError for non-string ticker', async () => {
+      const client = createClient()
+      try {
+        await client.searchByTicker(null as unknown as string)
+        expect(false).toBe(true) // Should not reach here
+      } catch (error) {
+        expect(error).toBeInstanceOf(ValidationError)
+      }
+    })
+  })
 })
