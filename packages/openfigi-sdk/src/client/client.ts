@@ -31,6 +31,14 @@ const log = (level: 'info' | 'warn' | 'error', message: string, ...args: unknown
 }
 
 const createHttpClient = (config: Required<ClientConfig>): KyInstance => {
+  // Check for Fetch API support (Node 18+)
+  if (typeof globalThis.fetch === 'undefined') {
+    const version = typeof process !== 'undefined' ? process.version : 'unknown'
+    throw new Error(
+      `openfigi-sdk requires Node.js 18+ or a runtime with native Fetch API support. Please upgrade your Node.js version. Current version: ${version}`
+    )
+  }
+
   return ky.create({
     prefixUrl: config.baseUrl,
     timeout: config.timeout,
@@ -342,6 +350,7 @@ export const createClient = (config: ClientConfig = {}) => {
       idType: 'ID_EXCH_SYMBOL',
       idValue: ticker.trim().toUpperCase(),
       exchCode: exchCode?.trim(),
+      securityType2: 'Common Stock',
       ...options,
     })
   }
@@ -396,14 +405,27 @@ export const createClient = (config: ClientConfig = {}) => {
   }
 }
 
-// Export standalone functions with default client
-const defaultClient = createClient()
+// Lazy-initialized default client to avoid crashes on import with older Node versions
+let _defaultClient: ReturnType<typeof createClient> | undefined
 
-export const mapping = defaultClient.mapping
-export const mappingSingle = defaultClient.mappingSingle
-export const searchByISIN = defaultClient.searchByISIN
-export const searchByCUSIP = defaultClient.searchByCUSIP
-export const searchBySEDOL = defaultClient.searchBySEDOL
-export const searchByTicker = defaultClient.searchByTicker
-export const searchByBloombergId = defaultClient.searchByBloombergId
-export const getRateLimitInfo = defaultClient.getRateLimitInfo
+const getDefaultClient = () => {
+  if (!_defaultClient) {
+    _defaultClient = createClient()
+  }
+  return _defaultClient
+}
+
+// Export standalone functions with lazy default client
+export const mapping = (requests: MappingRequest[]) => getDefaultClient().mapping(requests)
+export const mappingSingle = (request: MappingRequest) => getDefaultClient().mappingSingle(request)
+export const searchByISIN = (isin: string, options?: Partial<MappingRequest>) =>
+  getDefaultClient().searchByISIN(isin, options)
+export const searchByCUSIP = (cusip: string, options?: Partial<MappingRequest>) =>
+  getDefaultClient().searchByCUSIP(cusip, options)
+export const searchBySEDOL = (sedol: string, options?: Partial<MappingRequest>) =>
+  getDefaultClient().searchBySEDOL(sedol, options)
+export const searchByTicker = (ticker: string, exchCode?: string, options?: Partial<MappingRequest>) =>
+  getDefaultClient().searchByTicker(ticker, exchCode, options)
+export const searchByBloombergId = (bbgId: string, options?: Partial<MappingRequest>) =>
+  getDefaultClient().searchByBloombergId(bbgId, options)
+export const getRateLimitInfo = () => getDefaultClient().getRateLimitInfo()

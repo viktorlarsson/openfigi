@@ -34,7 +34,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Run tests
-        run: bun test
+        run: bun run test
 
       - name: Run linter
         run: bun run lint
@@ -50,8 +50,8 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: bunx changeset publish
-          commit: 'chore: release package'
-          title: 'chore: release package'
+          commit: 'chore: release packages'
+          title: 'chore: release packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
