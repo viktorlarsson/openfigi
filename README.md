@@ -69,6 +69,63 @@ Features:
 - **Batch operations**: Process up to 100 identifiers at once
 - **Ticker + Exchange**: Supports formats like `AAPL US`, `ABLI SS`, `VOD LN`
 
+### Using with Vercel AI SDK
+
+#### AI SDK 5.x (experimental)
+
+```typescript
+import { experimental_createMCPClient as createMCPClient } from 'ai'
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
+import { generateText } from 'ai'
+import { anthropic } from '@ai-sdk/anthropic'
+
+const mcpClient = await createMCPClient({
+  transport: new StdioClientTransport({
+    command: 'npx',
+    args: ['openfigi-mcp'],
+    env: { OPENFIGI_API_KEY: process.env.OPENFIGI_API_KEY }
+  }),
+})
+
+const tools = await mcpClient.tools()
+
+const { text } = await generateText({
+  model: anthropic('claude-sonnet-4-20250514'),
+  tools,
+  prompt: 'Find the FIGI for Apple Inc using ISIN US0378331005',
+})
+
+await mcpClient.close()
+```
+
+#### AI SDK 6.x
+
+```typescript
+import { createMCPClient } from '@ai-sdk/mcp'
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
+import { generateText } from 'ai'
+import { anthropic } from '@ai-sdk/anthropic'
+
+const mcpClient = await createMCPClient({
+  transport: new StdioClientTransport({
+    command: 'npx',
+    args: ['openfigi-mcp'],
+    env: { OPENFIGI_API_KEY: process.env.OPENFIGI_API_KEY }
+  }),
+})
+
+const tools = await mcpClient.tools()
+
+const { text } = await generateText({
+  model: anthropic('claude-sonnet-4-20250514'),
+  tools,
+  maxSteps: 5,
+  prompt: 'Search for Volkswagen preferred shares (VOW3) on the German exchange',
+})
+
+await mcpClient.close()
+```
+
 [Full MCP documentation →](./packages/mcp/README.md)
 
 ## Development
