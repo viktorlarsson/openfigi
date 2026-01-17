@@ -14,7 +14,7 @@
     "typecheck": "turbo run typecheck",
     "changeset": "changeset",
     "ci:version": "changeset version && bun update",
-    "ci:publish": "unset NPM_CONFIG_USERCONFIG; for dir in packages/*; do (cd \"$dir\" && bun publish --access public || true); done && changeset tag"
+    "ci:publish": "for dir in packages/*; do (cd \"$dir\" && bun publish --access public || true); done && changeset tag"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
