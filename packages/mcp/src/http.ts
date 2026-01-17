@@ -9,7 +9,7 @@ export function createHttpServer(server: Server, port: number = 3000) {
   app.use(express.json())
 
   // SSE endpoint - clients connect here to receive server messages
-  app.get('/sse', async (req: Request, res: Response) => {
+  app.get('/sse', async (_req: Request, res: Response) => {
     const transport = new SSEServerTransport('/messages', res)
     const sessionId = transport.sessionId
 
