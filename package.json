@@ -13,8 +13,8 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "changeset": "changeset",
-    "version": "changeset version",
-    "release": "turbo run build && turbo run test && bun publish --access public packages/openfigi-sdk && bun publish --access public packages/mcp"
+    "ci:version": "changeset version && bun update",
+    "ci:publish": "for dir in packages/*; do (cd \"$dir\" && bun publish --access public || true); done && changeset tag"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
