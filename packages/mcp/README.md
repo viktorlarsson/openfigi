@@ -22,7 +22,7 @@ No installation required - just configure Claude Desktop:
   "mcpServers": {
     "openfigi": {
       "command": "npx",
-      "args": ["openfigi-mcp"],
+      "args": ["openfigi-mcp@latest"],
       "env": {
         "OPENFIGI_API_KEY": "your-api-key-here"
       }

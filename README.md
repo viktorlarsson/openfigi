@@ -55,7 +55,7 @@ Add to Claude Desktop config:
   "mcpServers": {
     "openfigi": {
       "command": "npx",
-      "args": ["openfigi-mcp"],
+      "args": ["openfigi-mcp@latest"],
       "env": {
         "OPENFIGI_API_KEY": "your-api-key-here"
       }
