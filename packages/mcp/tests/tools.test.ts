@@ -85,6 +85,19 @@ TSLA US`
       expect(getText(result)).toContain('"MSFT" → TICKER (Exchange: US)')
     })
 
+    it('should parse Bloomberg-style tickers with Equity suffix', async () => {
+      const text = `P911 GY Equity
+VOW3 GY Equity
+AAPL US Equity`
+
+      const result = await handleTool('parse_identifiers', { text })
+
+      expect(getText(result)).toContain('Detected 3 identifiers')
+      expect(getText(result)).toContain('"P911" → TICKER (Exchange: GY)')
+      expect(getText(result)).toContain('"VOW3" → TICKER (Exchange: GY)')
+      expect(getText(result)).toContain('"AAPL" → TICKER (Exchange: US)')
+    })
+
     it('should parse ISINs correctly', async () => {
       const text = `US0378331005
 GB0002374006

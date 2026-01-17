@@ -110,8 +110,9 @@ const detectIdentifierType = (identifier: string): DetectedIdentifier => {
     return { value: trimmed, type: 'SEDOL', confidence: 'medium' }
   }
 
-  // Check for ticker with exchange suffix (e.g., "AAPL US", "ABLI SS")
-  const tickerWithExchange = trimmed.match(/^([A-Z0-9]+)\s+([A-Z]{2})$/i)
+  // Check for ticker with exchange suffix (e.g., "AAPL US", "ABLI SS", "P911 GY Equity")
+  // Optionally strips Bloomberg market sector suffix (Equity, Corp, Govt, etc.)
+  const tickerWithExchange = trimmed.match(/^([A-Z0-9./]+)\s+([A-Z]{2})(?:\s+(?:Equity|Corp|Govt|Muni|Curncy|Comdty|Index|Mtge))?$/i)
   if (tickerWithExchange) {
     return {
       value: tickerWithExchange[1].toUpperCase(),
