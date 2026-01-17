@@ -14,7 +14,7 @@
     "typecheck": "turbo run typecheck",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "turbo run build && turbo run test && bunx changeset publish"
+    "release": "turbo run build && turbo run test && bun publish --access public packages/openfigi-sdk && bun publish --access public packages/mcp"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",

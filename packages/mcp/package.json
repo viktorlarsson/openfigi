@@ -74,6 +74,6 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "openfigi-sdk": "^1.2.0"
+    "openfigi-sdk": "workspace:*"
   }
 }
