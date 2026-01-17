@@ -1,6 +1,7 @@
 {
   "name": "openfigi-mcp",
   "version": "0.2.3",
+  "mcpName": "io.github.viktorlarsson/openfigi",
   "description": "MCP server for OpenFIGI API - Map financial identifiers to FIGIs via Model Context Protocol",
   "type": "module",
   "main": "./dist/index.js",

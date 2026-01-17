@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.viktorlarsson/openfigi",
+  "description": "Map financial identifiers (ISIN, CUSIP, SEDOL, Ticker) to FIGIs via OpenFIGI API",
+  "repository": {
+    "url": "https://github.com/viktorlarsson/openfigi",
+    "source": "github",
+    "subfolder": "packages/mcp"
+  },
+  "version": "0.2.3",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "openfigi-mcp",
+      "version": "0.2.3",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "OpenFIGI API key (optional but recommended for higher rate limits)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true,
+          "name": "OPENFIGI_API_KEY"
+        }
+      ]
+    }
+  ]
+}
