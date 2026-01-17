@@ -25,6 +25,7 @@ export type IdType =
   | 'ID_PORTUGAL'
   | 'ID_SWEDEN'
   | 'ID_SHORT_CODE'
+  | (string & {})
 
 export type ExchCode =
   | '24X National' | 'A0' | 'AA' | 'AB' | 'ABIDJAN' | 'ABTS' | 'ABU DHABI' | 'AC' | 'ACE' | 'ACXI'

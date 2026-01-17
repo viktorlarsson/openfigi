@@ -27,7 +27,7 @@ export const IdTypeSchema = z.enum([
   'ID_PORTUGAL',
   'ID_SWEDEN',
   'ID_SHORT_CODE',
-])
+]).or(z.string())
 
 export const ExchCodeSchema = z.enum([
   '24X National', 'A0', 'AA', 'AB', 'ABIDJAN', 'ABTS', 'ABU DHABI', 'AC', 'ACE', 'ACXI',

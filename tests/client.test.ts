@@ -68,8 +68,8 @@ describe('OpenFIGI Functional Client', () => {
     it('should throw ValidationError for invalid request', async () => {
       const client = createClient()
       const invalidRequest = {
-        idType: 'INVALID_TYPE',
-        idValue: 'test',
+        idType: 'ID_ISIN',
+        idValue: '', // Empty idValue is invalid
       } as unknown as MappingRequest
       try {
         await client.mapping([invalidRequest])
