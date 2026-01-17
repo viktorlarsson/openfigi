@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "rules": {
+    "no-useless-catch": "error",
+    "prefer-const": "error",
+    "prefer-template": "error",
+    "no-explicit-any": "error"
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    ".next",
+    "coverage",
+    "*.min.js",
+    "docs"
+  ]
+}
