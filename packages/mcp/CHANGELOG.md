@@ -1,5 +1,12 @@
 # openfigi-mcp
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [451eeee]
+  - openfigi-sdk@1.3.1
+
 ## 0.4.0
 
 ### Minor Changes

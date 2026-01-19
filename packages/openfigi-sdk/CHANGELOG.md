@@ -1,5 +1,11 @@
 # openfigi-sdk
 
+## 1.3.1
+
+### Patch Changes
+
+- 451eeee: Add README.md to published package
+
 ## 1.3.0
 
 ### Minor Changes
